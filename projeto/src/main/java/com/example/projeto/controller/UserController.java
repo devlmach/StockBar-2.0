@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
@@ -52,5 +53,22 @@ public class UserController {
         Page<User> user = userRepository.findAll( pageable );
         model.addAttribute( "user", user );
         return "lista";
+    }
+
+    @GetMapping("/deleteUsuario/{id}")
+    public String deleteUsuario(@PathVariable(value = "id") User id) {
+        userRepository.delete(id);
+
+        return "redirect:/lista";
+    }
+
+    @GetMapping("/edit/{id}")
+    public ModelAndView editar(@PathVariable(value = "id") Integer id) throws IllegalAccessException {
+        ModelAndView mv = new ModelAndView( "editUsuario");
+        User finduser = userRepository.findById(id).orElseThrow(() -> new IllegalAccessException("cliente nao encontrado"));
+
+        mv.addObject("user", finduser);
+        mv.addObject("roles", finduser.getRole());
+        return mv;
     }
 }
