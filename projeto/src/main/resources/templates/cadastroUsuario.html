@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Usuário</title>
+    <style>
+        body {
+            background: light-blue;
+            font: normal 15pt Arial;
+        }
+
+        section {
+            background: white;
+            border-radius: 10px;
+            padding: 15px
+            width: 200px;
+            margin: auto;
+
+        }
+
+        .formulario {
+            background-color: red;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .label {
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Cadastro de Usuário</h1>
+
+<form class="formulario" th:action="@{/cadastroUsuario}" method="post">
+    <!-- Campo de Nome -->
+    <div>
+        <label class="label" for="name">Nome:</label>
+        <input class="label" type="text" id="name" name="name" required />
+    </div>
+
+    <!-- Campo de CPF -->
+    <div>
+        <label class="label" for="cpf">CPF:</label>
+        <input class="label" type="text" id="cpf" name="cpf" minlength="11" maxlength="11" required />
+    </div>
+
+    <!-- Campo de Endereço -->
+    <div>
+        <label class="label" for="address">Endereço:</label>
+        <input class="label" type="text" id="address" name="address" />
+    </div>
+
+    <!-- Campo de Nível de Acesso -->
+    <div>
+        <label class="label" for="role">Nível de Acesso:</label>
+        <select class="label" id="role" name="role">
+            <option value="Administrador">Administrador</option>
+            <option value="Funcionario">Usuario</option>
+            <option value="Cliente">Visitante</option>
+        </select>
+    </div>
+
+    <div th:if="${errorMessage}" style="color: red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <div th:if="${successMessage}" style="color: green;">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <!-- Botão de Submissão -->
+    <div>
+        <button type="submit" class="btn">Cadastrar</button>
+        <button data-th-href="@{/}" class="btn"> Início </button>
+    </div>
+</form>
+</body>
+</html>
