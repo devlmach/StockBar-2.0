@@ -13,7 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@Controller()
 public class UserController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/cadastroUsuario")
-    public String cadastrar(@ModelAttribute @Valid User newUser, BindingResult result, Model model, Exception e) {
+    public String cadastrar(@ModelAttribute @Valid User newUser, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             model.addAttribute("errorMessage", "Erro ao cadastrar o usuário");
