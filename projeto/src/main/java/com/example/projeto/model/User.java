@@ -18,10 +18,13 @@ public class User {
     @Column(name = "id_usuario")
     private Integer id;
 
+    @Column(name = "comanda")
+    private int comand;
+
     @Column(name = "nome")
     private String name;
 
-    @Column(name = "cpf")
+    @Column(name = "cpf", unique = true)
     private String cpf;
 
     @Column(name = "endereço")

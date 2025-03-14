@@ -13,13 +13,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller("")
+@RequestMapping()
+@Controller
 public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
 
-    @GetMapping("/")
+    @GetMapping("/createForm")
     public String home() {
         return "createForm";
     }
@@ -42,22 +43,22 @@ public class ProductController {
         return "cadastroProduto";
     }
 
-    @GetMapping( "/lista" )
+    @GetMapping( "/listaProduto" )
     public String list( Model model, @RequestParam(defaultValue = "0") int page ) {
         Pageable pageable = PageRequest.of(page, 5);
         Page<Product> product = productRepository.findAll( pageable );
         model.addAttribute( "product", product );
-        return "lista";
+        return "listaProduto";
     }
 
     @GetMapping("/deleteProduto/{id}")
-    public String deleteUsuario(@PathVariable(value = "id") Product id) {
+    public String deleteProduto(@PathVariable(value = "id") Product id) {
         productRepository.delete(id);
 
-        return "redirect:/lista";
+        return "redirect:/listaProduto";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/editProduct/{id}")
     public ModelAndView editar(@PathVariable(value = "id") Integer id) throws IllegalAccessException {
         ModelAndView mv = new ModelAndView( "editProduct");
         Product findProduct = productRepository.findById(id).orElseThrow(() -> new IllegalAccessException("produto nao encontrado"));

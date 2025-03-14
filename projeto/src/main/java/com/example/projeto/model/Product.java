@@ -22,10 +22,9 @@ public class Product {
     private String description;
 
     @Column(name = "preço")
-    private BigDecimal value;
+    private float value;
 
     @Column(name = "quantidade")
     private String quantity;
-
 
 }

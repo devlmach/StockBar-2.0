@@ -13,15 +13,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller()
+import java.util.Random;
+
+@RequestMapping("/")
+@Controller
 public class UserController {
 
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/")
+    @GetMapping("/createFormUser")
     public String home() {
-        return "createForm";
+        return "createFormUser";
     }
 
     @GetMapping("/cadastroUsuario")
@@ -31,6 +34,9 @@ public class UserController {
 
     @PostMapping("/cadastroUsuario")
     public String cadastrar(@ModelAttribute @Valid User newUser, BindingResult result, Model model) {
+
+        Random random = new Random();
+        int comanda = random.nextInt(100);
 
         if (result.hasErrors()) {
             model.addAttribute("errorMessage", "Erro ao cadastrar o usuário");
@@ -42,30 +48,39 @@ public class UserController {
             return "cadastroUsuario";
         }
 
+        newUser.setComand(comanda);
         User save = userRepository.save(newUser);
+
         model.addAttribute("successMessage", "Usuário Cadastrado");
+        model.addAttribute("comanda", newUser.getComand());
         return "cadastroUsuario";
     }
 
-    @GetMapping( "/lista" )
+    @GetMapping( "/listaUsuario" )
     public String list( Model model, @RequestParam(defaultValue = "0") int page ) {
         Pageable pageable = PageRequest.of(page, 5);
         Page<User> user = userRepository.findAll( pageable );
         model.addAttribute( "user", user );
-        return "lista";
+        return "listaUsuario";
     }
 
     @GetMapping("/deleteUsuario/{id}")
     public String deleteUsuario(@PathVariable(value = "id") User id) {
         userRepository.delete(id);
 
-        return "redirect:/lista";
+        return "redirect:/listaUsuario";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/editUsuario/{id}")
     public ModelAndView editar(@PathVariable(value = "id") Integer id) throws IllegalAccessException {
         ModelAndView mv = new ModelAndView( "editUsuario");
         User finduser = userRepository.findById(id).orElseThrow(() -> new IllegalAccessException("cliente nao encontrado"));
+
+        if (userRepository.existsByCpf(finduser.getCpf())) {
+            finduser.setName(finduser.getName());
+            finduser.setAddress(finduser.getAddress());
+            finduser.setRole(finduser.getRole());
+        }
 
         mv.addObject("user", finduser);
         mv.addObject("roles", finduser.getRole());

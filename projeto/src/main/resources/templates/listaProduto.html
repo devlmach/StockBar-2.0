@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:data-th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Clientes Cadastrados </title>
+    <title> Produtos Cadastrados </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -67,36 +67,41 @@
     <table class="table">
         <tr>
             <th> ID </th>
-            <th> Nome </th>
-            <th> CPF </th>
-            <th> Endereço </th>
-            <th> Nível de acesso </th>
+            <th> Descriçãp </th>
+            <th> Valor </th>
+            <th> Quantidade </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
         </tr>
         <tbody class="tbody">
 
         <!-- Example with Thymeleaf -->
-        <tr data-th-each="user : ${user.content}">
-            <td data-th-text="${user.id}"></td>
-            <td data-th-text="${user.name}"></td>
-            <td data-th-text="${{user.cpf}}"></td>
-            <td data-th-text="${user.address}"></td>
-            <td data-th-text="${user.role}"></td>
+        <tr data-th-each="product : ${product.content}">
+            <td data-th-text="${product.id}"></td>
+            <td data-th-text="${product.description}"></td>
+            <td data-th-text="'R$ ' + ${product.value}"> </td>
+            <td data-th-text="${product.quantity}"></td>
+            <td> </td>
+            <td> </td>
+
             <td>
-                <a class="btn" data-th-href="@{'/edit/'+${user.id}}"> Editar </a>
+                <a class="btn" data-th-href="@{/#}"> Editar </a>
             </td>
             <td>
-                <a class="btn" data-th-href="@{'/deleteUsuario/'+${user.id}}"> Excluir </a>
+                <a class="btn" data-th-href="@{'/deleteProduto/'+${product.id}}"> Excluir </a>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <a class="btn" th:if="${user.hasPrevious()}" data-th-href="@{/list(page=${user.number - 1})}"> Anterior </a>
-    <a class="btn" th:if="${user.hasNext()}" data-th-href="@{/list(page=${user.number + 1})}"> Próximo </a>
+    <a class="btn" th:if="${product.hasPrevious()}" data-th-href="@{/list(page=${product.number - 1})}"> Anterior </a>
+    <a class="btn" th:if="${product.hasNext()}" data-th-href="@{/list(page=${product.number + 1})}"> Próximo </a>
 
 
-    <a data-th-href="@{/cadastroUsuario}" class="btn"> Cadastrar Novo Cliente </a>
-    <a data-th-href="@{/}" class="btn"> Início </a>
+    <a data-th-href="@{/cadastroProduto}" class="btn"> Cadastrar Novo Produto </a>
+    <a data-th-href="@{/createFormUser}" class="btn"> Início </a>
 
 </div>
 </body>
